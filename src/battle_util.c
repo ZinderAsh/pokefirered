@@ -1345,7 +1345,7 @@ u8 AtkCanceller_UnableToUseMove(void)
                 --gBattleMons[gBattlerAttacker].status2;
                 if (gBattleMons[gBattlerAttacker].status2 & STATUS2_CONFUSION)
                 {
-                    if ((gBattlerAttacker % 2) ? 0 : 1)
+                    if ((gBattlerAttacker % 2) ? 1 : 0)
                     {
                         gBattleCommunication[MULTISTRING_CHOOSER] = 0;
                         BattleScriptPushCursor();
@@ -1395,7 +1395,7 @@ u8 AtkCanceller_UnableToUseMove(void)
             if (gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION)
             {
                 gBattleScripting.battler = CountTrailingZeroBits((gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION) >> 0x10);
-                if ((gBattlerAttacker % 2) ? 0 : 1)
+                if ((gBattlerAttacker % 2) ? 1 : 0)
                 {
                     BattleScriptPushCursor();
                 }

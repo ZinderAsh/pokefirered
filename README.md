@@ -26,6 +26,7 @@ All of these aspects are changed to be in the opponent's favor:
 - Shed Skin
 - Effect Spore, Poison Point, Static, Flame Body
 - King's Rock
+- Attract
 - Traded Pokemon will always disobey when at a high level
 - You can't get random items from Pickup
 
