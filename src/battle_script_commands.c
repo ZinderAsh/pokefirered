@@ -1115,7 +1115,7 @@ static void atk01_accuracycheck(void)
         if (holdEffect == HOLD_EFFECT_EVASION_UP)
             calc = (calc * (100 - param)) / 100;
         // final calculation
-        if ((Random() % 100 + 1) > calc)
+        if (((gBattlerAttacker % 2) ? 0 : 100) > calc)
         {
             gMoveResultFlags |= MOVE_RESULT_MISSED;
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE 
@@ -1212,7 +1212,7 @@ static void atk04_critcalc(void)
     if ((gBattleMons[gBattlerTarget].ability != ABILITY_BATTLE_ARMOR && gBattleMons[gBattlerTarget].ability != ABILITY_SHELL_ARMOR)
      && !(gStatuses3[gBattlerAttacker] & STATUS3_CANT_SCORE_A_CRIT)
      && !(gBattleTypeFlags & BATTLE_TYPE_OLD_MAN_TUTORIAL)
-     && !(Random() % sCriticalHitChance[critChance])
+     && !(((gBattlerAttacker % 2) ? 0 : 1) % sCriticalHitChance[critChance])
      && (!(gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) || sub_80EB2E0(1))
      && !(gBattleTypeFlags & BATTLE_TYPE_POKEDUDE))
         gCritMultiplier = 2;
@@ -1563,7 +1563,7 @@ u8 AI_TypeCalc(u16 move, u16 targetSpecies, u8 targetAbility)
 static inline void ApplyRandomDmgMultiplier(void)
 {
     u16 rand = Random();
-    u16 randPercent = 100 - (rand % 16);
+    u16 randPercent = 100 - ((gBattlerAttacker % 2) ? 0 : 15);
 
     if (gBattleMoveDamage != 0)
     {
@@ -1595,7 +1595,7 @@ static void atk07_adjustnormaldamage(void)
         param = ItemId_GetHoldEffectParam(gBattleMons[gBattlerTarget].item);
     }
     gPotentialItemEffectBattler = gBattlerTarget;
-    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && (Random() % 100) < param)
+    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && ((gBattlerAttacker % 2) ? 0 : 99) < param)
     {
         RecordItemEffectBattle(gBattlerTarget, holdEffect);
         gSpecialStatuses[gBattlerTarget].focusBanded = 1;
@@ -1635,7 +1635,7 @@ static void atk08_adjustnormaldamage2(void)
         param = ItemId_GetHoldEffectParam(gBattleMons[gBattlerTarget].item);
     }
     gPotentialItemEffectBattler = gBattlerTarget;
-    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && (Random() % 100) < param)
+    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && ((gBattlerAttacker % 2) ? 0 : 99) < param)
     {
         RecordItemEffectBattle(gBattlerTarget, holdEffect);
         gSpecialStatuses[gBattlerTarget].focusBanded = 1;
@@ -2325,7 +2325,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
         {
             BattleScriptPush(gBattlescriptCurrInstr + 1);
             if (sStatusFlagsForMoveEffects[gBattleCommunication[MOVE_EFFECT_BYTE]] == STATUS1_SLEEP)
-                gBattleMons[gEffectBattler].status1 |= ((Random() & 3) + 2);
+                gBattleMons[gEffectBattler].status1 |= (((gEffectBattler % 2) ? 0 : 3) + 2);
             else
                 gBattleMons[gEffectBattler].status1 |= sStatusFlagsForMoveEffects[gBattleCommunication[MOVE_EFFECT_BYTE]];
             gBattlescriptCurrInstr = sMoveEffectBS_Ptrs[gBattleCommunication[MOVE_EFFECT_BYTE]];
@@ -2378,7 +2378,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 }
                 else
                 {
-                    gBattleMons[gEffectBattler].status2 |= (((Random()) % 0x4)) + 2;
+                    gBattleMons[gEffectBattler].status2 |= (((gEffectBattler % 2) ? 0 : 3)) + 2;
                     BattleScriptPush(gBattlescriptCurrInstr + 1);
                     gBattlescriptCurrInstr = sMoveEffectBS_Ptrs[gBattleCommunication[MOVE_EFFECT_BYTE]];
                 }
@@ -2453,7 +2453,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 }
                 else
                 {
-                    gBattleMons[gEffectBattler].status2 |= ((Random() & 3) + 3) << 0xD;
+                    gBattleMons[gEffectBattler].status2 |= (((gEffectBattler % 2) ? 0 : 3) + 3) << 0xD;
                     *(gBattleStruct->wrappedMove + gEffectBattler * 2 + 0) = gCurrentMove;
                     *(gBattleStruct->wrappedMove + gEffectBattler * 2 + 1) = gCurrentMove >> 8;
                     *(gBattleStruct->wrappedBy + gEffectBattler) = gBattlerAttacker;
@@ -2738,7 +2738,7 @@ static void atk15_seteffectwithchance(void)
         gBattleCommunication[MOVE_EFFECT_BYTE] &= ~(MOVE_EFFECT_CERTAIN);
         SetMoveEffect(0, MOVE_EFFECT_CERTAIN);
     }
-    else if (Random() % 100 <= percentChance
+    else if (((gBattlerAttacker % 2) ? 0 : 99) <= percentChance
           && gBattleCommunication[MOVE_EFFECT_BYTE]
           && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
     {
@@ -5442,7 +5442,7 @@ static void atk69_adjustsetdamage(void)
         param = ItemId_GetHoldEffectParam(gBattleMons[gBattlerTarget].item);
     }
     gPotentialItemEffectBattler = gBattlerTarget;
-    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && (Random() % 100) < param)
+    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && ((gBattlerTarget % 2) ? 0 : 99) < param)
     {
         RecordItemEffectBattle(gBattlerTarget, holdEffect);
         gSpecialStatuses[gBattlerTarget].focusBanded = 1;
@@ -5999,7 +5999,7 @@ static void atk77_setprotectlike(void)
         gDisableStructs[gBattlerAttacker].protectUses = 0;
     if (gCurrentTurnActionNumber == (gBattlersCount - 1))
         notLastTurn = FALSE;
-    if (sProtectSuccessRates[gDisableStructs[gBattlerAttacker].protectUses] >= Random() && notLastTurn)
+    if (sProtectSuccessRates[gDisableStructs[gBattlerAttacker].protectUses] >= ((gBattlerAttacker % 2) ? 0 : USHRT_MAX) && notLastTurn)
     {
         if (gBattleMoves[gCurrentMove].effect == EFFECT_PROTECT)
         {
@@ -6582,9 +6582,9 @@ static void atk8D_setmultihitcounter(void)
     }
     else
     {
-        gMultiHitCounter = Random() & 3;
+        gMultiHitCounter = ((gBattlerAttacker % 2) ? 3 : 0);
         if (gMultiHitCounter > 1)
-            gMultiHitCounter = (Random() & 3) + 2;
+            gMultiHitCounter = ((gBattlerAttacker % 2) ? 3 : 0) + 2;
         else
             gMultiHitCounter += 2;
     }
@@ -6821,7 +6821,7 @@ static void atk93_tryKO(void)
         param = ItemId_GetHoldEffectParam(gBattleMons[gBattlerTarget].item);
     }
     gPotentialItemEffectBattler = gBattlerTarget;
-    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && (Random() % 100) < param)
+    if (holdEffect == HOLD_EFFECT_FOCUS_BAND && ((gBattlerTarget % 2) ? 0 : 99) < param)
     {
         RecordItemEffectBattle(gBattlerTarget, HOLD_EFFECT_FOCUS_BAND);
         gSpecialStatuses[gBattlerTarget].focusBanded = 1;
@@ -6841,7 +6841,7 @@ static void atk93_tryKO(void)
         if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
         {
             chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
-            if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
+            if (((gBattlerAttacker % 2) ? 0 : 99) + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
                 chance = TRUE;
             else
                 chance = FALSE;
@@ -6854,7 +6854,7 @@ static void atk93_tryKO(void)
         else
         {
             chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
-            if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
+            if (((gBattlerAttacker % 2) ? 0 : 99) + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
                 chance = TRUE;
             else
                 chance = FALSE;
@@ -7241,7 +7241,7 @@ static void atkA0_psywavedamageeffect(void)
 
     while ((randDamage = (Random() & 0xF)) > 10);
     randDamage *= 10;
-    gBattleMoveDamage = gBattleMons[gBattlerAttacker].level * (randDamage + 50) / 100;
+    gBattleMoveDamage = gBattleMons[gBattlerAttacker].level * ((gBattlerAttacker % 2) ? 150 : 50) / 100;
     ++gBattlescriptCurrInstr;
 }
 
@@ -7306,7 +7306,7 @@ static void atkA3_disablelastusedattack(void)
     {
         PREPARE_MOVE_BUFFER(gBattleTextBuff1, gBattleMons[gBattlerTarget].moves[i])
         gDisableStructs[gBattlerTarget].disabledMove = gBattleMons[gBattlerTarget].moves[i];
-        gDisableStructs[gBattlerTarget].disableTimer = (Random() & 3) + 2;
+        gDisableStructs[gBattlerTarget].disableTimer = ((gBattlerTarget % 2) ? 0 : 3) + 2;
         gDisableStructs[gBattlerTarget].disableTimerStartValue = gDisableStructs[gBattlerTarget].disableTimer; // used to save the random amount of turns?
         gBattlescriptCurrInstr += 5;
     }
@@ -7333,7 +7333,7 @@ static void atkA4_trysetencore(void)
     {
         gDisableStructs[gBattlerTarget].encoredMove = gBattleMons[gBattlerTarget].moves[i];
         gDisableStructs[gBattlerTarget].encoredMovePos = i;
-        gDisableStructs[gBattlerTarget].encoreTimer = (Random() & 3) + 3;
+        gDisableStructs[gBattlerTarget].encoreTimer = ((gBattlerTarget % 2) ? 0 : 3) + 3;
         gDisableStructs[gBattlerTarget].encoreTimerStartValue = gDisableStructs[gBattlerTarget].encoreTimer;
         gBattlescriptCurrInstr += 5;
     }
@@ -7594,7 +7594,7 @@ static void atkAD_tryspiteppreduce(void)
                 break;
         if (i != MAX_MON_MOVES && gBattleMons[gBattlerTarget].pp[i] > 1)
         {
-            s32 ppToDeduct = (Random() & 3) + 2;
+            s32 ppToDeduct = ((gBattlerTarget % 2) ? 0 : 3) + 2;
 
             if (gBattleMons[gBattlerTarget].pp[i] < ppToDeduct)
                 ppToDeduct = gBattleMons[gBattlerTarget].pp[i];
@@ -7845,7 +7845,7 @@ static void atkB6_happinesstodamagecalculation(void)
 
 static void atkB7_presentdamagecalculation(void)
 {
-    s32 rand = Random() & 0xFF;
+    s32 rand = ((gBattlerAttacker % 2) ? 200 : 210);
 
     if (rand < 102)
     {
@@ -7900,7 +7900,7 @@ static void atkB8_setsafeguard(void)
 
 static void atkB9_magnitudedamagecalculation(void)
 {
-    s32 magnitude = Random() % 100;
+    s32 magnitude = ((gBattlerAttacker % 2) ? 99 : 0);
 
     if (magnitude < 5)
     {
@@ -8809,7 +8809,7 @@ static void atkE5_pickup(void)
             ability = gBaseStats[species].abilities[1];
         else
             ability = gBaseStats[species].abilities[0];
-        if (ability == ABILITY_PICKUP && species != SPECIES_NONE && species != SPECIES_EGG && heldItem == ITEM_NONE && !(Random() % 10))
+        if (ability == ABILITY_PICKUP && species != SPECIES_NONE && species != SPECIES_EGG && heldItem == ITEM_NONE && FALSE)
         {
             s32 random = Random() % 100;
 
@@ -9100,7 +9100,7 @@ static void atkEF_handleballthrow(void)
 
                 odds = Sqrt(Sqrt(16711680 / odds));
                 odds = 1048560 / odds;
-                for (shakes = 0; shakes < 4 && Random() < odds; ++shakes);
+                for (shakes = 0; shakes < 4 && USHRT_MAX < odds; ++shakes);
                 if (gLastUsedItem == ITEM_MASTER_BALL)
                     shakes = BALL_3_SHAKES_SUCCESS; // why calculate the shakes before that check?
                 BtlController_EmitBallThrowAnim(0, shakes);

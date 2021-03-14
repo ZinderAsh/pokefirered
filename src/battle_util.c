@@ -980,7 +980,7 @@ u8 DoBattlerEndTurnEffects(void)
                      && gBattleMons[gActiveBattler].ability != ABILITY_INSOMNIA && !UproarWakeUpCheck(gActiveBattler))
                     {
                         CancelMultiTurnMoves(gActiveBattler);
-                        gBattleMons[gActiveBattler].status1 |= (Random() & 3) + 2;
+                        gBattleMons[gActiveBattler].status1 |= ((gActiveBattler % 2) ? 0 : 3) + 2;
                         BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[gActiveBattler].status1);
                         MarkBattlerForControllerExec(gActiveBattler);
                         gEffectBattler = gActiveBattler;
@@ -1245,7 +1245,7 @@ u8 AtkCanceller_UnableToUseMove(void)
         case CANCELLER_FROZEN: // check being frozen
             if (gBattleMons[gBattlerAttacker].status1 & STATUS1_FREEZE)
             {
-                if (Random() % 5)
+                if ((gBattlerAttacker % 2) ? 0 : 1)
                 {
                     if (gBattleMoves[gCurrentMove].effect != EFFECT_THAW_HIT) // unfreezing via a move effect happens in case 13
                     {
@@ -1345,7 +1345,7 @@ u8 AtkCanceller_UnableToUseMove(void)
                 --gBattleMons[gBattlerAttacker].status2;
                 if (gBattleMons[gBattlerAttacker].status2 & STATUS2_CONFUSION)
                 {
-                    if (Random() & 1)
+                    if ((gBattlerAttacker % 2) ? 0 : 1)
                     {
                         gBattleCommunication[MULTISTRING_CHOOSER] = 0;
                         BattleScriptPushCursor();
@@ -1370,7 +1370,7 @@ u8 AtkCanceller_UnableToUseMove(void)
             ++gBattleStruct->atkCancellerTracker;
             break;
         case CANCELLER_PARALYSED: // paralysis
-            if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_PARALYSIS) && (Random() % 4) == 0)
+            if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_PARALYSIS) && ((gBattlerAttacker % 2) ? 0 : 1))
             {
                 gProtectStructs[gBattlerAttacker].prlzImmobility = 1;
                 gBattlescriptCurrInstr = BattleScript_MoveUsedIsParalyzed;
@@ -1395,7 +1395,7 @@ u8 AtkCanceller_UnableToUseMove(void)
             if (gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION)
             {
                 gBattleScripting.battler = CountTrailingZeroBits((gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION) >> 0x10);
-                if (Random() & 1)
+                if ((gBattlerAttacker % 2) ? 0 : 1)
                 {
                     BattleScriptPushCursor();
                 }
@@ -1751,7 +1751,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     }
                     break;
                 case ABILITY_SHED_SKIN:
-                    if ((gBattleMons[battler].status1 & STATUS1_ANY) && (Random() % 3) == 0)
+                    if ((gBattleMons[battler].status1 & STATUS1_ANY) && ((battler % 2) ? 1 : 0))
                     {
                         if (gBattleMons[battler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON))
                             StringCopy(gBattleTextBuff1, gStatusConditionString_PoisonJpn);
@@ -1912,7 +1912,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT)
-                 && (Random() % 10) == 0)
+                 && ((gBattlerAttacker % 2) ? 0 : 1))
                 {
                     do
                         gBattleCommunication[MOVE_EFFECT_BYTE] = Random() & 3;
@@ -1933,7 +1933,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT)
-                 && (Random() % 3) == 0)
+                 && ((gBattlerAttacker % 2) ? 0 : 1))
                 {
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_POISON;
                     BattleScriptPushCursor();
@@ -1948,7 +1948,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT)
-                 && (Random() % 3) == 0)
+                 && ((gBattlerAttacker % 2) ? 0 : 1))
                 {
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_PARALYSIS;
                     BattleScriptPushCursor();
@@ -1963,7 +1963,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT)
                  && TARGET_TURN_DAMAGED
-                 && (Random() % 3) == 0)
+                 && ((gBattlerAttacker % 2) ? 0 : 1))
                 {
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
                     BattleScriptPushCursor();
@@ -1979,7 +1979,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT)
                  && TARGET_TURN_DAMAGED
                  && gBattleMons[gBattlerTarget].hp != 0
-                 && (Random() % 3) == 0
+                 && ((gBattlerAttacker % 2) ? 0 : 1)
                  && gBattleMons[gBattlerAttacker].ability != ABILITY_OBLIVIOUS
                  && GetGenderFromSpeciesAndPersonality(speciesAtk, pidAtk) != GetGenderFromSpeciesAndPersonality(speciesDef, pidDef)
                  && !(gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION)
@@ -2969,7 +2969,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
             case HOLD_EFFECT_FLINCH:
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
                  && TARGET_TURN_DAMAGED
-                 && (Random() % 100) < battlerHoldEffectParam
+                 && ((gBattlerAttacker % 2) ? 1 : 0)
                  && gBattleMoves[gCurrentMove].flags & FLAG_KINGSROCK_AFFECTED
                  && gBattleMons[gBattlerTarget].hp)
                 {
@@ -3126,7 +3126,7 @@ u8 IsMonDisobedient(void)
     }
     if (gBattleMons[gBattlerAttacker].level <= obedienceLevel)
         return 0;
-    rnd = (Random() & 255);
+    rnd = 255;
     calc = (gBattleMons[gBattlerAttacker].level + obedienceLevel) * rnd >> 8;
     if (calc < obedienceLevel)
         return 0;

@@ -3431,7 +3431,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
         if (gBattleMoves[moveBattler1].priority == gBattleMoves[moveBattler2].priority)
         {
             if (speedBattler1 == speedBattler2 && Random() & 1)
-                strikesFirst = 2; // same speeds, same priorities
+                strikesFirst = ((battler1 % 2) ? 0 : 1); // same speeds, same priorities
             else if (speedBattler1 < speedBattler2)
                 strikesFirst = 1; // battler2 has more speed
             // else battler1 has more speed
@@ -3444,7 +3444,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     else
     {
         if (speedBattler1 == speedBattler2 && Random() & 1)
-            strikesFirst = 2; // same speeds, same priorities
+            strikesFirst = ((battler1 % 2) ? 0 : 1); // same speeds, same priorities
         else if (speedBattler1 < speedBattler2)
             strikesFirst = 1; // battler2 has more speed
         // else battler1 has more speed

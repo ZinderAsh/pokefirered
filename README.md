@@ -1,11 +1,47 @@
+# Unfair Pokemon FireRed and LeafGreen
+
+This is and edited version of the [**disassembly of Pokemon FireRed and LeafGreen**](https://github.com/pret/pokefirered), changed to make the RNG aspects of combat always be in the opponent's favor. Have fun in this hellscape.
+
+All of these aspects are changed to be in the opponent's favor:
+- Accuracy Checks (player will only hit with 100% accuracy, opp always hits)
+- Critical Hit Checks (player never crits, opp always crits)
+- Damage Rolls (max rolls for opp, min rolls for player)
+- Sleep turns (2 turns for opp, 5 for player)
+- Confusion turns (2 turns for opp, 5 for player)
+- Confusion hit-rate (player is always hit, opponent is never)
+- Wrap turns (2 turns for opp, 5 for player)
+- Side Effect Chances
+- Protect multiple turns
+- Multi-hit moves (always 5 for opp, 2 for player)
+- OHKO moves (always hit for opp if they are higher lvl, never for player)
+- Psywave damage (lvl x 1.5 for opp, lvl x 0.5 for player)
+- Turns for Encore, Disable (always 2 for opp, 5 for player)
+- Spite PP reduction (2 on opp, 5 on player)
+- Present (always heals opp, 120 power on player)
+- Magnitude (always 150 power for opp, 10 power for player)
+- Catch Rate (you basically can't catch anything)
+- Player will always lose a speed tie
+- Freeze (player is frozen forever, opponent thaws immediately)
+- Paralysis (player is never able to move, opponent can always move)
+- Shed Skin
+- Effect Spore, Poison Point, Static, Flame Body
+- King's Rock
+- Traded Pokemon will always disobey when at a high level
+- You can't get random items from Pickup
+
+These RNG aspects are unchanged:
+- No increased wild encounters
+- You can run away
+- You can still catch fish
+- Turns for Thrash, Outrage, Petal Dance, Uproar
+
+Other changes:
+- You can run anywhere, also before getting the shoes
+
 # Pokémon FireRed and LeafGreen
 
-[![Build Status][travis-badge]][travis]
-
-[travis]: https://travis-ci.org/pret/pokefirered
-[travis-badge]: https://travis-ci.org/pret/pokefirered.svg?branch=master
-
-This is a disassembly of Pokémon FireRed and LeafGreen.
+This is based on a disassembly of Pokémon FireRed and LeafGreen.
+https://github.com/pret/pokefirered
 
 It builds the following ROMs:
 
