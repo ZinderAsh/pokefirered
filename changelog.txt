@@ -1,29 +1,31 @@
 Changes to best case for opponent and worst case for player:
-X Accuracy Checks (player will only hit with 100% accuracy, opp always hits)
-X Critical Hit Checks (player never crits, opp always crits)
-X Damage Rolls (max rolls for opp, min rolls for player)
-X Sleep turns (2 turns for opp, 5 for player)
+- Accuracy Checks (player will only hit with 100% accuracy, opp always hits)
+- Critical Hit Checks (player never crits, opp always crits)
+- Damage Rolls (max rolls for opp, min rolls for player)
+- Sleep turns (2 turns for opp, 5 for player)
 - Confusion turns (2 turns for opp, 5 for player)
 - Confusion hit-rate (player is always hit, opponent is never)
 - Wrap turns (2 turns for opp, 5 for player)
-X Side Effect Chances
+- Side Effect Chances
 - Protect multiple turns
-X Multi-hit moves (always 5 for opp, 2 for player)
+- Multi-hit moves (always 5 for opp, 2 for player)
 - OHKO moves (always hit for opp if they are higher lvl, never for player)
 - Psywave damage (lvl x 1.5 for opp, lvl x 0.5 for player)
 - Turns for Encore, Disable (always 2 for opp, 5 for player)
 - Spite PP reduction (2 on opp, 5 on player)
 - Present (always heals opp, 120 power on player)
 - Magnitude (always 150 power for opp, 10 power for player)
-X Catch Rate (you basically can't catch anything)
-X Player will always lose a speed tie
+- Catch Rate (you basically can't catch anything)
+- Player will always lose a speed tie
 - Freeze (player is frozen forever, opponent thaws immediately)
-X Paralysis (player is never able to move, opponent can always move)
+- Paralysis (player is never able to move, opponent can always move)
 - Shed Skin
-X Effect Spore, Poison Point, Static, Flame Body
+- Effect Spore, Poison Point, Static, Flame Body
 - King's Rock
+- Attract
 - Traded Pokemon will always disobey when at a high level
 - You can't get random items from Pickup
+- Quick Claw (never triggers)
 
 Unchanged RNG:
 - No increased wild encounters

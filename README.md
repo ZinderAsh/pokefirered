@@ -29,6 +29,7 @@ All of these aspects are changed to be in the opponent's favor:
 - Attract
 - Traded Pokemon will always disobey when at a high level
 - You can't get random items from Pickup
+- Quick Claw (never triggers)
 
 These RNG aspects are unchanged:
 - No increased wild encounters
