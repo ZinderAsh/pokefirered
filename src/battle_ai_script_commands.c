@@ -1480,6 +1480,9 @@ static void Cmd_if_can_faint(void)
     gBattleScripting.dmgMultiplier = 1;
     gMoveResultFlags = 0;
     gCritMultiplier = 1;
+    if (gBattlerTarget % 2 == 0 && gBattleMons[gBattlerTarget].ability != ABILITY_BATTLE_ARMOR && gBattleMons[gBattlerTarget].ability != ABILITY_SHELL_ARMOR) {
+        gCritMultiplier = 2;
+    }
     gCurrentMove = AI_THINKING_STRUCT->moveConsidered;
     AI_CalcDmg(gBattlerAttacker, gBattlerTarget);
     TypeCalc(gCurrentMove, gBattlerAttacker, gBattlerTarget);
@@ -1509,6 +1512,9 @@ static void Cmd_if_cant_faint(void)
     gBattleScripting.dmgMultiplier = 1;
     gMoveResultFlags = 0;
     gCritMultiplier = 1;
+    if (gBattlerTarget % 2 == 0 && gBattleMons[gBattlerTarget].ability != ABILITY_BATTLE_ARMOR && gBattleMons[gBattlerTarget].ability != ABILITY_SHELL_ARMOR) {
+        gCritMultiplier = 2;
+    }
     gCurrentMove = AI_THINKING_STRUCT->moveConsidered;
     AI_CalcDmg(gBattlerAttacker, gBattlerTarget);
     TypeCalc(gCurrentMove, gBattlerAttacker, gBattlerTarget);

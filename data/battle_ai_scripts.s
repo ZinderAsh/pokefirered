@@ -21,6 +21,7 @@ gBattleAI_ScriptsTable:: @ 81D9BF4
 	.4byte AI_TryToFaint
 	.4byte AI_SetupFirstTurn
 	.4byte AI_Risky
+	.4byte AI_Guaranteed
 	.4byte AI_PreferStrongestMove
 	.4byte AI_PreferBatonPass
 	.4byte AI_DoubleBattle
@@ -218,7 +219,7 @@ AI_CBM_Sleep:: @ 81D9FB6
 	if_equal ABILITY_INSOMNIA, Score_Minus10
 	if_equal ABILITY_VITAL_SPIRIT, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
-@	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
+ 	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
 
 AI_CBM_Explosion:: @ 81D9FCF
@@ -273,6 +274,10 @@ AI_CBM_AccUp:: @ 81DA04D
 
 AI_CBM_EvasionUp:: @ 81DA056
 	if_stat_level_equal AI_USER, STAT_EVASION, 12, Score_Minus10
+	if_stat_level_equal AI_USER, STAT_EVASION, 11, Score_Minus10
+	if_stat_level_equal AI_USER, STAT_EVASION, 10, Score_Minus10
+	if_stat_level_equal AI_USER, STAT_EVASION, 9, Score_Minus10
+	if_stat_level_equal AI_USER, STAT_EVASION, 8, Score_Minus10
 	end
 
 AI_CBM_AttackDown:: @ 81DA05F
@@ -351,7 +356,7 @@ AI_CBM_Poison:: @ 81DA15B
 	get_ability AI_TARGET
 	if_equal ABILITY_IMMUNITY, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
-@	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
+	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
 
 AI_CBM_LightScreen:: @ 81DA18A
@@ -391,7 +396,7 @@ AI_CBM_Confuse:: @ 81DA1E2
 	if_status2 AI_TARGET, STATUS2_CONFUSION, Score_Minus5
 	get_ability AI_TARGET
 	if_equal ABILITY_OWN_TEMPO, Score_Minus10
-@	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
+	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
 
 AI_CBM_Reflect:: @ 81DA1F5
@@ -403,7 +408,7 @@ AI_CBM_Paralyze:: @ 81DA200
 	get_ability AI_TARGET
 	if_equal ABILITY_LIMBER, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
-@	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
+	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
 
 AI_CBM_Substitute:: @ 81DA219
@@ -504,6 +509,7 @@ AI_CBM_SunnyDay:: @ 81DA312
 
 AI_CBM_FutureSight:: @ 81DA31A
 	if_side_affecting AI_TARGET, SIDE_STATUS_FUTUREATTACK, Score_Minus10
+	score -10
 @	if_side_affecting AI_USER, SIDE_STATUS_FUTUREATTACK, Score_Minus12  @ Improvement in Emerald
 	end
 
@@ -773,6 +779,7 @@ AI_CheckViability:: @ 81DA445
 	if_effect EFFECT_WATER_SPORT, AI_CV_WaterSport
 	if_effect EFFECT_CALM_MIND, AI_CV_SpDefUp
 	if_effect EFFECT_DRAGON_DANCE, AI_CV_DragonDance
+	if_effect EFFECT_ALL_STATS_UP_HIT, AI_CV_AllStatsUpHit
 	end
 
 AI_CV_Sleep:: @ 81DA71C
@@ -1063,12 +1070,13 @@ AI_CV_AccuracyUp_End:: @ 81DA9B9
 	end
 
 AI_CV_EvasionUp:: @ 81DA9BA
+	if_stat_level_more_than AI_USER, STAT_EVASION, 6, AI_CV_EvasionUp_ScoreDown2
 	if_hp_less_than AI_USER, 90, AI_CV_EvasionUp2
 	if_random_less_than 100, AI_CV_EvasionUp2
 	score +3
 
 AI_CV_EvasionUp2:: @ 81DA9C9
-	if_stat_level_less_than AI_USER, STAT_EVASION, 9, AI_CV_EvasionUp3
+	if_stat_level_less_than AI_USER, STAT_EVASION, 8, AI_CV_EvasionUp3
 	if_random_less_than 128, AI_CV_EvasionUp3
 	score -1
 
@@ -2764,6 +2772,17 @@ AI_CV_DragonDance2:: @ 81DBA66
 AI_CV_DragonDance_End:: @ 81DBA6E
 	end
 
+AI_CV_AllStatsUpHit:: @ 81DBA4C
+	if_stat_level_less_than AI_USER, STAT_SPEED, 9, AI_CV_AllStatsUpHit2
+	score -1
+	goto AI_CV_AllStatsUpHit_End
+
+AI_CV_AllStatsUpHit2:: @ 81DBA66
+	score +10
+
+AI_CV_AllStatsUpHit_End:: @ 81DBA6E
+	end
+
 AI_TryToFaint:: @ 81DBA6F
 	if_can_faint AI_TryToFaint_TryToEncourageQuickAttack
 	get_how_powerful_move_is
@@ -2855,6 +2874,7 @@ AI_SetupFirstTurn_SetupEffectsToEncourage:: @ 81DBAA7
 	.byte EFFECT_BULK_UP
 	.byte EFFECT_CALM_MIND
 	.byte EFFECT_CAMOUFLAGE
+	.byte EFFECT_ALL_STATS_UP_HIT
 	.byte -1
 
 AI_PreferStrongestMove:: @ 81DBADF
@@ -2876,26 +2896,37 @@ AI_Risky_End:: @ 81DBB01
 	end
 
 AI_Risky_EffectsToEncourage:: @ 81DBB02
-	.byte EFFECT_SLEEP
 	.byte EFFECT_EXPLOSION
 	.byte EFFECT_MIRROR_MOVE
-	.byte EFFECT_OHKO
 	.byte EFFECT_HIGH_CRITICAL
-	.byte EFFECT_CONFUSE
 	.byte EFFECT_METRONOME
 	.byte EFFECT_PSYWAVE
 	.byte EFFECT_COUNTER
 	.byte EFFECT_DESTINY_BOND
-	.byte EFFECT_SWAGGER
-	.byte EFFECT_ATTRACT
-	.byte EFFECT_PRESENT
-	.byte EFFECT_ALL_STATS_UP_HIT
 	.byte EFFECT_BELLY_DRUM
 	.byte EFFECT_MIRROR_COAT
 	.byte EFFECT_FOCUS_PUNCH
 	.byte EFFECT_REVENGE
+	.byte -1
+
+AI_Guaranteed:: @ 81DBAEF
+	get_considered_move_effect
+	if_not_in_bytes AI_Guaranteed_EffectsToEncourage, AI_Guaranteed_End
+	score +4
+
+AI_Guaranteed_EffectsToEncourage:: @ 81DBB02
+	.byte EFFECT_SLEEP
+	.byte EFFECT_OHKO
+	.byte EFFECT_CONFUSE
+	.byte EFFECT_SWAGGER
+	.byte EFFECT_ATTRACT
+	.byte EFFECT_PRESENT
+	.byte EFFECT_ALL_STATS_UP_HIT
 	.byte EFFECT_TEETER_DANCE
 	.byte -1
+
+AI_Guaranteed_End:: @ 81DBB01
+	end
 
 AI_PreferBatonPass:: @ 81DBB16
 	count_alive_pokemon AI_USER

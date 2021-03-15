@@ -37,6 +37,14 @@ These RNG aspects are unchanged:
 - You can still catch fish
 - Turns for Thrash, Outrage, Petal Dance, Uproar
 
+AI Updates:
+- Knows that it always crits
+- Understands Safeguard slightly better for certain effects
+- Will usually only increase evasiveness once
+- No longer considers certain effects risky, and will use them more often
+- Uses Future Sight less
+- Really likes Ancient Power
+
 Other changes:
 - You can run anywhere, also before getting the shoes
 
