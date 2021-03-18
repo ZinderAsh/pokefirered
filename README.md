@@ -30,12 +30,15 @@ All of these aspects are changed to be in the opponent's favor:
 - Traded Pokemon will always disobey when at a high level
 - You can't get random items from Pickup
 - Quick Claw (never triggers)
+- All gift Pokemon have 0 in all IVs
 
 These RNG aspects are unchanged:
 - No increased wild encounters
 - You can run away
 - You can still catch fish
 - Turns for Thrash, Outrage, Petal Dance, Uproar
+- Wild Pokemon have unchanged IVs
+- Shiny Pokemon may still appear (though they cannot be caught)
 
 AI Updates:
 - Knows that it always crits
