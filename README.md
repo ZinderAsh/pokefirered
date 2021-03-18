@@ -39,6 +39,7 @@ These RNG aspects are unchanged:
 - Turns for Thrash, Outrage, Petal Dance, Uproar
 - Wild Pokemon have unchanged IVs
 - Shiny Pokemon may still appear (though they cannot be caught)
+- Natures are still random
 
 AI Updates:
 - Knows that it always crits
